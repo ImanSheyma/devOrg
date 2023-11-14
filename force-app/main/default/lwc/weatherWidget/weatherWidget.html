@@ -1,0 +1,76 @@
+<template>
+    <lightning-card title="Weather">
+
+        <!--Action buttons-->
+        <lightning-button-group slot="actions">
+            <lightning-button label="Refresh" onclick={getWeather}></lightning-button>
+            <lightning-button label="Edit" onclick={handleEdit}></lightning-button>
+        </lightning-button-group>
+
+        <!--body-->
+        <div class="slds-p-horizontal_small">
+            <!--form-->
+            <template if:true={isFormEnabled}>
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col slds-size_1-of-1">
+                        <lightning-input label="Enter City" placeholder="Minsk" value={cityInput}
+                            onchange={handleCityInputChange}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_1-of-1 slds-m-top_x-small">
+                        <lightning-button variant="brand" label="Save" title="Save" onclick={handleSave}>
+                        </lightning-button>
+                        <lightning-button label="Cancel" title="Cancel" onclick={handleCancel}
+                            class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                </div>
+            </template>
+
+            <!--weather-->
+            <template if:false={isFormEnabled}>
+                <template if:false={isError}>
+                    <lightning-layout vertical-align="center" horizontal-align="space">
+                        <lightning-layout-item padding="around-small">
+                            <div class="slds-p-bottom_small"><img src={weatherImage} height="70px" width="70px"></div>
+                            <div class="slds-text-heading_small slds-align_absolute-center">{weather}</div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item padding="around-small">
+                            <div class="slds-text-heading_medium" style="font-weight: bold;">{city}</div>
+                            <div class="slds-text-heading_large" style="font-weight: bold;">{temperature} &#176;C</div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout horizontal-align="space">
+                        <lightning-layout-item padding="around-small">
+                            <div class="slds-text-heading_small slds-align_absolute-center">Pressure</div>
+                            <div class="slds-align_absolute-center">1098 hb</div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item padding="around-small">
+                            <div class="slds-text-heading_small slds-align_absolute-center">Hummidity</div>
+                            <div class="slds-align_absolute-center">{hummidity}%</div>
+                        </lightning-layout-item>
+
+                        <lightning-layout-item padding="around-small">
+                            <div class="slds-text-heading_small slds-align_absolute-center">Wind</div>
+                            <div class="slds-align_absolute-center">{wind} km/h</div>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+
+                <!--Error message-->
+                <template if:true={isError}>
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col slds-size_1-of-1 slds-align_absolute-center">
+                            <img src={weatherImage} height="150px" width="150px">
+                        </div>
+                        <div class="slds-col slds-size_1-of-1 slds-p-around_small">
+                            <div class="slds-text-heading_small slds-align_absolute-center">Opps...City Not Found</div>
+                        </div>
+                    </div>
+                </template>
+
+            </template>
+        </div>
+    </lightning-card>
+</template>
